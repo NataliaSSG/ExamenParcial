@@ -1,25 +1,25 @@
-const express = require('express');
+class UserHttpHandler {
+  constructor(userController) {
+    this.userController = userController;
+  }
 
-function createUserHandler(userController) {
-  const router = express.Router();
-
-  // Endpoint POST /login
-  router.post('/login', async (req, res) => {
+  async login(req, res) {
+    console.log('Request body:', req.body); // Log the incoming request body
     const { username, password } = req.body;
-
+  
     try {
-      const user = await userController.login(username, password);
-
+      const user = await this.userController.login(username, password);
+      console.log('Login successful:', user); // Log the user object if login succeeds
+  
       return res.json({
         message: `¡Hola, ${user.fullName}! Gracias por ser parte de Café Aurora.`,
         membershipNumber: user.membershipNumber,
       });
     } catch (error) {
+      console.error('Login error:', error.message); // Log the error message
       return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
     }
-  });
-
-  return router;
+  }
 }
 
-module.exports = createUserHandler;
+module.exports = UserHttpHandler;

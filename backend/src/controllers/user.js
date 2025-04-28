@@ -1,29 +1,16 @@
 class UserController {
-  constructor(service) {
-    this.service = service;
+  constructor(userService) {
+    this.userService = userService;
   }
 
-  async getAll() {
-    return this.service.getAllUsers();
-  }
-
-  async getByUsername(username) {
-    const user = await this.service.getUserByUsername(username);
-    if (!user) throw new Error('User not found');
-    return user;
-  }
-
-  async create(username, password, fullName, membershipNumber) {
-    return this.service.createUser(username, password, fullName, membershipNumber);
-  }
-
-  async update(username, password, fullName, membershipNumber) {
-    return this.service.updateUser(username, password, fullName, membershipNumber);
-  }
-
-  async delete(username) {
-    await this.service.deleteUser(username);
-    return { message: 'User deleted' };
+  // This method should now call the `login` method on the service
+  async login(username, password) {
+    try {
+      const user = await this.userService.login(username, password);
+      return user;
+    } catch (error) {
+      throw new Error('Invalid credentials');
+    }
   }
 }
 

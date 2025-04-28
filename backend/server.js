@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -7,12 +6,13 @@ const userRoutes = require('./src/routes/users');
 
 const app = express();
 
-app.use(express.json());
+// Middleware to parse JSON bodies
+app.use(express.json());  // Make sure this line is here
 app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
 
-// Now you only need to expose the /api route for login
+// API Routes
 app.use('/api', userRoutes);
 
 const PORT = process.env.PORT || 3001;
